@@ -73,6 +73,7 @@ public class Main
 					etapa = false;
 				} else
 				{
+					
 					operator = input;
 				}
 			
@@ -120,19 +121,27 @@ public class Main
 					//RESOLVER EL NUMERO
 				}
 				
-			} 
+			}else 															//No reconocio ninguna entrada
+			{
+				System.out.println("Have digit a wrong entry");
+				etapa = false;
+			}
 			
-			if (count == 2)											//Se resuelve
+			if (count == 2 && etapa == true)											//Se resuelve
 			{
 				result = basicOperation(num1, operator, num2);
 				System.out.println("||");
 				System.out.println(result); 
 				
-				etapa = false;
+				if (oneOperation == true)
+				{
+					etapa = false;
+				} 
+				
 				
 			}
 			
-			if (count == 2 && oneOperation == false) //It means that we are in flow operations
+			if (count == 2 && oneOperation == false && etapa == true) //It means that we are in flow operations
 			{
 				oneOperationStart(sc, 1, result, false);
 			}
@@ -145,28 +154,31 @@ public class Main
 	{
 		String str2 = "";
 		boolean result = false; 
-
-		for(int i=0; i < 4; i++)			//Puede ser otro método
-		{	
-			str2 = str2 + String.valueOf(str.charAt(i));
-		}
 		
-		
-		switch (str2)
+		if (str.length() == 3)
 		{
-			case "scn":     		//Operation 11: Notación Cientifica
-			case "rad":				//Operation 12: Convierte a radianes
-			case "deg": 			//Operation 12: Convierte a grados
-			case "sin":				//Operation 13
-			case "cos": 			//Operation 14
-			case "tan":				//Operation 15
-			case "log":				//Operation 16 
-			case "sqr":				//Operation 17
-				result = true;
-				break; 
-			default:
-				System.out.println("Have digit a wrong entry");
-				break;
+			for(int i=0; i < 4; i++)			//Puede ser otro método
+			{	
+				str2 = str2 + String.valueOf(str.charAt(i));
+			}
+			
+			
+			switch (str2)
+			{
+				case "scn":     		//Operation 11: Notación Cientifica
+				case "rad":				//Operation 12: Convierte a radianes
+				case "deg": 			//Operation 12: Convierte a grados
+				case "sin":				//Operation 13
+				case "cos": 			//Operation 14
+				case "tan":				//Operation 15
+				case "log":				//Operation 16 
+				case "sqr":				//Operation 17
+					result = true;
+					break; 
+				default:
+					System.out.println("Have digit a wrong entry");
+					break;
+			}
 		}
 		
 		return result;
@@ -205,7 +217,7 @@ public class Main
 	{
 		boolean result = false;
 		
-		if (str.contains("+") || str.contains("-") || str.contains("*") || str.contains("/") || str.contains("%"))
+		if (str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/") || str.equals("%"))
 		{
 			result = true;
 		}
