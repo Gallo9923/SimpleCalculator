@@ -39,9 +39,9 @@ public class Main
 					System.out.println("The program has finished");
 					menu = false;
 					break;
-				case 4: 
+				case 4: 																			//For TESTING
 					System.out.println("Memory will be printed");
-					for(int i=0; i < memory.length-1; i++)
+					for(int i=0; i < memory.length; i++)
 					{
 						System.out.println(memory[i]);
 					}
@@ -171,9 +171,6 @@ public class Main
 			
 			
 			count++;
-			
-			System.out.println(etapa);
-			System.out.println(count);
 			
 		}
 		
@@ -365,9 +362,9 @@ public class Main
 	{
 		int pos;
 		
-		if (array[1] < 5)
+		if (array[1] < 10)
 		{
-			pos = (int)array[1]+1;
+			pos = (int)array[1]+2;
 			array[pos] = newAns;
 		} else
 		{
