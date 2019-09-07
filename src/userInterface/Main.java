@@ -10,8 +10,9 @@ public class Main
 		int optionMenu;
 	
 		//Initialization
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in); //Scanner for String
 		
+		double[] memory = new double[10];
 		
 		while (menu)
 		{
@@ -23,7 +24,7 @@ public class Main
 			{
 				case 1: 
 					//One operation method 
-					oneOperationStart();
+					oneOperationStart(sc);
 					break;
 				case 2:
 					//Flow operations method
@@ -38,8 +39,163 @@ public class Main
 			}
 		}
 		
+	/**
+	* This verifies the inputs to make the correct operation
+	* <b> pos: </b> The result has been displayed 
+	*/
+	public static void oneOperationStart(Scanner sc)
+	{
+		boolean etapa = true;
+		int count = 0;
+		String input;
 		
-	public static void oneOperationStart()
+		String operator;
+		double num1;
+		double num2;
+		
+		while (etapa)
+		{
+			input = sc.nextLine();
+			
+			
+			if (containsBasicOperations(input)) 				 //OPERATOR
+			{
+				if (count == 0 || count == 2)
+				{
+					System.out.println("Have digit a wrong entry");
+					etapa = false;
+				} else
+				{
+					operator = input;
+				}
+			
+			} else if (containsNumber(input))					//NUMBER
+			{
+				if (count == 0)
+				{
+					num1 = Double.parseDouble(input); 
+					
+				} else if (count == 1)
+				{
+					System.out.println("Have digit a wrong entry");
+					etapa = false;
+					
+				} else
+				{
+					Double.parseDouble(input); 
+				}	
+			
+			}else if (containsComplex(input))					//COMPLEX
+			{
+				if (count == 0)
+				{
+					//RESOLVER EL NUMERO
+				}else if (count == 1)
+				{
+					System.out.println("Have digit a wrong entry");
+					etapa = false;
+				} else
+				{
+					//RESOLVER EL NUMERO
+				}
+				
+			} else if (input.equalsIgnoreCase("PI"))			//CONSTANT PI
+			{
+				if (count == 0)
+				{
+					num1 = Math.PI;
+					
+				} else if (count == 1)
+				{
+					System.out.println("Have digit a wrong entry");
+					etapa = false;
+				} else
+				{
+					num2 = Math.PI;
+				}
+			}
+			
+		}
+	}
+	
+	public static boolean containsComplex(String str)
+	{
+		String str2 = "";
+		boolean result = false; 
+
+		for(int i=0; i < 4; i++)			//Puede ser otro método
+		{	
+			str2 = str2 + String.valueOf(str.charAt(i));
+		}
+		
+		
+		switch (str2)
+		{
+			case "scn":     		//Operation 11: Notación Cientifica
+			case "rad":				//Operation 12: Convierte a radianes
+			case "deg": 			//Operation 12: Convierte a grados
+			case "sin":				//Operation 13
+			case "cos": 			//Operation 14
+			case "tan":				//Operation 15
+			case "log":				//Operation 16 
+			case "sqr":				//Operation 17
+				result = true;
+				break; 
+			default:
+				System.out.println("Have digit a wrong entry");
+				break;
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
+	/**
+	*	Returns true if the string is a int or double. 
+	*	@param str string to be checked
+	*  	@return boolean  
+	*/
+	public static boolean containsNumber(String str)
+	{
+		boolean result = true;
+		
+		for (int i = 0; i<str.length(); i++)
+		{	
+			if (!((Character.isDigit(str.charAt(i))) || (str.charAt(i) == '.')))
+			{
+				result = false; 
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	* Checks if a string contains the basic of one of operations from 1 to 5
+	* <b> pos: </b> returns true if basic operation is found
+	* @param str String that will be checked
+	* @return boolean True if basic operations is found 
+	*/
+	public static boolean containsBasicOperations(String str)
+	{
+		boolean result = false;
+		
+		if (str.contains("+") || str.contains("-") || str.contains("*") || str.contains("/") || str.contains("%"))
+		{
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	/**
+	*	Deprecated
+	*/	
+	
+	/*
+	public static void DeprecatedoneOperationStart()
 	{	
 		System.out.println("One Operation Mode has started");
 		
@@ -48,9 +204,13 @@ public class Main
 		String num1 = "";
 		String operator = "";
 		String num2 = "";
-		
+	
 		num1 = scanStr.next();
 		
+		if (num1 == "+" | "-" | "*" | "/" | "%")
+		{
+			
+		}
 		
 		if (boolRegexChecker("[0-9]+", num1)) //Checks if the first input is an operation {1, ..., 5} 
 		{
@@ -82,7 +242,12 @@ public class Main
 			System.out.println("Entro 2");
 		}
 	}
-		
+	*/
+	
+	
+	/**
+	*	Checks if a given regex is present in a given String
+	*/
 	public static boolean boolRegexChecker(String theRegex, String str2Check)
 	{
 		boolean result = false;
@@ -96,6 +261,12 @@ public class Main
 		
 	}
 	
+	/**
+	*	Calculates the operations 1 to 5 (+, -, /, *, %)
+	* 	@param pNum1 
+	* 	@param pOperator
+	*	@param pNum2 
+	*/
 	public static double basicOperation(String pNum1, String pOperator, String pNum2)
 	{
 		double result = 0; 
@@ -122,6 +293,22 @@ public class Main
 		return result;
 	}
 	
+	/**
+	*	Updates the memory of the calculator with a new answer
+	*/
+	public static double[] updateMem(double newAns, double[] array)
+	{
+		array[0] = newAns;
+		
+		for(int i=1; i<array.length; i++) 
+		{
+			array[array.length-i] = array[array.length-1-i];
+		}
+		
+		return array;
+		
+	}
+
 	
 }  // Close Main
 	
