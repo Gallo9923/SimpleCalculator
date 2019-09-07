@@ -12,7 +12,8 @@ public class Main
 		//Initialization
 		Scanner sc = new Scanner(System.in); //Scanner for String
 		
-		double[] memory = new double[10];
+		double[] memory = new double[12];
+		memory[0] = 1;
 		
 		while (menu)
 		{
@@ -25,18 +26,27 @@ public class Main
 				case 1: 
 					//One operation method 
 					System.out.println("--- First Operation Started ---");
-					oneOperationStart(sc, 0, 0, true);
+					memory = oneOperationStart(sc, 0, 0, true, memory);
 					System.out.println("Back to menu");
 					break;
 				case 2:
 					//Flow operations method
 					System.out.println("--- Flow Operation Started ---");
-					oneOperationStart(sc, 0, 0, false);
+					memory = oneOperationStart(sc, 0, 0, false, memory);
+					System.out.println("Back to menu");
 					break;
 				case 3:
 					System.out.println("The program has finished");
 					menu = false;
 					break;
+				case 4: 
+					System.out.println("Memory will be printed");
+					for(int i=0; i < memory.length-1; i++)
+					{
+						System.out.println(memory[i]);
+					}
+					break;
+				
 				default:
 					System.out.println("You need to choose a valid option");
 				}
@@ -47,7 +57,7 @@ public class Main
 	* This verifies the inputs to make the correct operation
 	* <b> pos: </b> The result has been displayed 
 	*/
-	public static void oneOperationStart(Scanner sc, int index, double ans, boolean oneOperation)
+	public static double[] oneOperationStart(Scanner sc, int index, double ans, boolean oneOperation, double[] pMemory)
 	{
 	
 		boolean etapa = true;
@@ -127,11 +137,20 @@ public class Main
 				etapa = false;
 			}
 			
+			if (etapa == false)
+			{
+				pMemory[0] = 0;
+			}
+			
+			
 			if (count == 2 && etapa == true)											//Se resuelve
 			{
+			
 				result = basicOperation(num1, operator, num2);
 				System.out.println("||");
 				System.out.println(result); 
+				
+				pMemory = updateMem(result , pMemory);
 				
 				if (oneOperation == true)
 				{
@@ -139,15 +158,26 @@ public class Main
 				} 
 				
 				
+				if (oneOperation == false)  									//It means that we are in flow operations
+				{
+					pMemory = oneOperationStart(sc, 1, result, false, pMemory);
+					if (pMemory[0] == 0)
+					{
+						etapa = false;
+					}
+				}
 			}
 			
-			if (count == 2 && oneOperation == false && etapa == true) //It means that we are in flow operations
-			{
-				oneOperationStart(sc, 1, result, false);
-			}
+			
 			
 			count++;
+			
+			System.out.println(etapa);
+			System.out.println(count);
+			
 		}
+		
+		return pMemory;
 	}
 	
 	public static boolean containsComplex(String str)
@@ -157,7 +187,7 @@ public class Main
 		
 		if (str.length() == 3)
 		{
-			for(int i=0; i < 4; i++)			//Puede ser otro método
+			for(int i=0; i < 3; i++)			//Puede ser otro método
 			{	
 				str2 = str2 + String.valueOf(str.charAt(i));
 			}
@@ -333,12 +363,24 @@ public class Main
 	*/
 	public static double[] updateMem(double newAns, double[] array)
 	{
-		array[0] = newAns;
+		int pos;
 		
-		for(int i=1; i<array.length; i++) 
+		if (array[1] < 5)
 		{
-			array[array.length-i] = array[array.length-1-i];
+			pos = (int)array[1]+1;
+			array[pos] = newAns;
+		} else
+		{
+			for(int i=2; i < array.length-1; i++)
+			{
+				array[i] = array[i+1];
+			}
+			
+			array[array.length-1] = newAns;
+			
 		}
+		
+		array[1]++;
 		
 		return array;
 		
