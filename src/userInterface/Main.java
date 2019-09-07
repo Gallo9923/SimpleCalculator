@@ -24,10 +24,14 @@ public class Main
 			{
 				case 1: 
 					//One operation method 
-					oneOperationStart(sc);
+					System.out.println("--- First Operation Started ---");
+					oneOperationStart(sc, 0, 0, true);
+					System.out.println("Back to menu");
 					break;
 				case 2:
 					//Flow operations method
+					System.out.println("--- Flow Operation Started ---");
+					oneOperationStart(sc, 0, 0, false);
 					break;
 				case 3:
 					System.out.println("The program has finished");
@@ -43,19 +47,22 @@ public class Main
 	* This verifies the inputs to make the correct operation
 	* <b> pos: </b> The result has been displayed 
 	*/
-	public static void oneOperationStart(Scanner sc)
+	public static void oneOperationStart(Scanner sc, int index, double ans, boolean oneOperation)
 	{
+	
 		boolean etapa = true;
-		int count = 0;
+		int count = index;
 		String input;
 		
-		String operator;
-		double num1;
-		double num2;
+		String operator = "";
+		double num1 = ans;
+		double num2 = 0;
+		double result = 0;
+		
 		
 		while (etapa)
 		{
-			input = sc.nextLine();
+			input = sc.next();
 			
 			
 			if (containsBasicOperations(input)) 				 //OPERATOR
@@ -82,9 +89,23 @@ public class Main
 					
 				} else
 				{
-					Double.parseDouble(input); 
+					num2 = Double.parseDouble(input); 
 				}	
 			
+			}else if (input.equalsIgnoreCase("PI"))			//CONSTANT PI
+			{
+				if (count == 0)
+				{
+					num1 = Math.PI;
+					
+				} else if (count == 1)
+				{
+					System.out.println("Have digit a wrong entry");
+					etapa = false;
+				} else
+				{
+					num2 = Math.PI;
+				}
 			}else if (containsComplex(input))					//COMPLEX
 			{
 				if (count == 0)
@@ -99,22 +120,24 @@ public class Main
 					//RESOLVER EL NUMERO
 				}
 				
-			} else if (input.equalsIgnoreCase("PI"))			//CONSTANT PI
+			} 
+			
+			if (count == 2)											//Se resuelve
 			{
-				if (count == 0)
-				{
-					num1 = Math.PI;
-					
-				} else if (count == 1)
-				{
-					System.out.println("Have digit a wrong entry");
-					etapa = false;
-				} else
-				{
-					num2 = Math.PI;
-				}
+				result = basicOperation(num1, operator, num2);
+				System.out.println("||");
+				System.out.println(result); 
+				
+				etapa = false;
+				
 			}
 			
+			if (count == 2 && oneOperation == false) //It means that we are in flow operations
+			{
+				oneOperationStart(sc, 1, result, false);
+			}
+			
+			count++;
 		}
 	}
 	
@@ -267,26 +290,26 @@ public class Main
 	* 	@param pOperator
 	*	@param pNum2 
 	*/
-	public static double basicOperation(String pNum1, String pOperator, String pNum2)
+	public static double basicOperation(double pNum1, String pOperator, double pNum2)
 	{
 		double result = 0; 
 		
 		switch(pOperator)
 		{
 			case "+":
-				result = Integer.parseInt(pNum1) + Integer.parseInt(pNum2);
+				result = pNum1 + pNum2;
 				break;
 			case "-":
-				result = Integer.parseInt(pNum1) - Integer.parseInt(pNum2);
+				result = pNum1 - pNum2;
 				break;
 			case "*":
-				result = Integer.parseInt(pNum1) * Integer.parseInt(pNum2);
+				result = pNum1 * pNum2;
 				break; 
 			case "/":
-				result = Integer.parseInt(pNum1) / Integer.parseInt(pNum2);
+				result = pNum1 / pNum2;
 				break;
 			case "%":
-				result = Integer.parseInt(pNum1) % Integer.parseInt(pNum2);
+				result = pNum1 % pNum2;
 				break; 
 		}
 		
