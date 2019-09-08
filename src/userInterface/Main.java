@@ -382,7 +382,165 @@ public class Main
 		return array;
 		
 	}
-
+	
+	public static double power(int power, double num)     //Potenciación
+	{
+		double result = num;
+		
+		for(int i=0; i<power-1; i++)
+		{	
+			result = result * num; 	
+		}
+		
+		return result;
+		
+	}
+	
+	public static double factorial (int n)  			//Factorial
+	{
+		double result = 1; 
+		
+		for (int i=1; i<=n; i++)
+		{
+			result = i * result;
+		}
+		
+		return result;
+	}
+	
+	public static double bin2Dec(String bin)
+	{
+		String aux;
+		double result = 0;
+		
+		for(int i=0; i<bin.length(); i++)
+		{
+			aux = Character.toString(bin.charAt(bin.length()-i-1));
+			
+			result += Integer.parseInt(aux) * power(i,2);
+		}
+	
+		return result;
+	}
+	
+	public static String dec2Hex(double dec) 
+		
+	{
+		
+		String result = "";
+		int remainder = 1;
+		int aux = (int)dec;
+		
+		if (aux == 0)
+		{
+			result = "0";
+		}
+		
+		while (aux != 0)
+		{
+			remainder = aux % 16;
+			aux = aux / 16;
+			
+			if (remainder < 10)
+			{
+				result = Integer.toString(remainder) + result;
+			} else
+			{
+				switch (remainder)
+				{
+					case 10:
+						result = "A" + result;
+						break;
+					case 11:
+						result = "B" + result;
+						break;
+					case 12:
+						result = "C" + result;
+						break;
+					case 13: 
+						result = "D" + result;
+						break;
+					case 14: 
+						result = "E" + result;
+						break;
+					case 15:
+						result = "F" + result;
+						break;
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	
+	public static double hex2Dec(String hex)
+	{
+		double result = 0.0; 
+		String aux = "";
+		
+		for (int i=0; i < hex.length(); i++)
+		{
+			aux = Character.toString(hex.charAt(i));
+			
+			if (Character.isDigit(hex.charAt(i)))
+			{
+				
+				result += power((hex.length()-1-i), 16) * Double.parseDouble(aux);
+				
+			} else
+			{
+				switch (aux)
+				{
+					case "A":
+						result += 10 * power((hex.length()-1-i), 16);
+						break;
+					case "B":
+						result += 11 * power((hex.length()-1-i), 16);
+						break;
+					case "C":
+						result += 12 * power((hex.length()-1-i), 16);
+						break;
+					case "D":
+						result += 13 * power((hex.length()-1-i), 16);
+						break;
+					case "E":
+						result +=14 * power((hex.length()-1-i), 16);
+						break;
+					case "F":
+						result += 15 * power((hex.length()-1-i), 16);
+						break;
+				}
+				
+			}
+			
+		}
+		
+		return result;
+	}
+	
+	public static String dec2Bin(double dec)
+	{
+		String result = "";
+		int remainder = 1;
+		int aux = (int)dec;
+		
+		if (aux == 0)
+		{
+			result = "0";
+		}
+		
+		while (aux != 0)
+		{
+			remainder = aux % 2;
+			aux = aux / 2;
+		
+			result = remainder + result;
+			
+		}
+	
+		return result;	
+	}
 	
 }  // Close Main
 	
