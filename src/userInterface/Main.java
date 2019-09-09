@@ -3,6 +3,9 @@ import java.util.regex.*;
 
 public class Main
 {
+	/**
+	*	main method: Executes application and main menu
+	*/
 	public static void main (String[] args)
 	{
 		//Atributes
@@ -65,8 +68,13 @@ public class Main
 		}
 		
 	/**
-	* This verifies the inputs to make the correct operation
-	* <b> pos: </b> The result has been displayed 
+	* Manages all operations
+	* <b> pos: </b> The result has been displayed and memory updated
+	* @param sc Scanner to read String inputs
+	* @param index Variable to detect in which part of the operation the process is. 0: num1 == empty; 1: num1 == with valueOf
+	* @param oneOperation true if its one operation enable, false if flow operations enabled
+	* @param pMemory matrix with memory of operations
+	* @return double[] memory updated
 	*/
 	public static double[] oneOperationStart(Scanner sc, int index, double ans, boolean oneOperation, double[] pMemory)
 	{
@@ -192,6 +200,12 @@ public class Main
 		return pMemory;
 	}
 	
+	/**
+	* Checks if a String contains one of the complex operations
+	* <b> pre: </b> str must not be empty
+	* @param str String that contains the complex operation sintax
+	* @return boolean true if complex operation is present in the String
+	*/
 	public static boolean containsComplex(String str)
 	{
 		String str2 = "";
@@ -229,13 +243,12 @@ public class Main
 		return result;
 	}
 	
-	
-	
-	
 	/**
-	*	Returns true if the string is a int or double. 
+	*	Returns true if the string is an int or double. 
+	* 	<b> pre: </b> string must not be empty
+	*	<b> pre: </b> String is checked
 	*	@param str string to be checked
-	*  	@return boolean  
+	*  	@return boolean True if the string is an int or double 
 	*/
 	public static boolean containsNumber(String str)
 	{
@@ -254,7 +267,7 @@ public class Main
 	
 	/**
 	* Checks if a string contains the basic of one of operations from 1 to 5
-	* <b> pos: </b> returns true if basic operation is found
+	* <b> pos: </b> String is checked. 
 	* @param str String that will be checked
 	* @return boolean True if basic operations is found 
 	*/
@@ -271,62 +284,11 @@ public class Main
 	}
 	
 	/**
-	*	Deprecated
-	*/	
-	
-	/*
-	public static void DeprecatedoneOperationStart()
-	{	
-		System.out.println("One Operation Mode has started");
-		
-		Scanner scanStr = new Scanner(System.in);
-		
-		String num1 = "";
-		String operator = "";
-		String num2 = "";
-	
-		num1 = scanStr.next();
-		
-		if (num1 == "+" | "-" | "*" | "/" | "%")
-		{
-			
-		}
-		
-		if (boolRegexChecker("[0-9]+", num1)) //Checks if the first input is an operation {1, ..., 5} 
-		{
-			System.out.println("Entro");
-			
-			//Creates the strings. Works for: +, -, *, /, % 
-			for (int i=0; i<2; i++)
-			{
-				if (i==0)
-				{
-					operator = scanStr.next();
-					
-				} 
-				else if (i==1)
-				{
-					num2 = scanStr.next();
-				}
-			}
-			
-			System.out.println("||");
-			
-			System.out.println(basicOperation(num1, operator, num2)); // Calcula el resultado
-			
-			
-			
-		} 
-		else //Must be an operation {6, ..., 17)
-		{ 
-			System.out.println("Entro 2");
-		}
-	}
-	*/
-	
-	
-	/**
 	*	Checks if a given regex is present in a given String
+	*	<b> pos: </b> theRegex is a regular expression and str2Check is not empty
+	* 	@param theRegex regular expression to be checked
+	*	@param str2Check String to be checks with regular expression
+	*	@return boolean True if regular expression is present in str2Check
 	*/
 	public static boolean boolRegexChecker(String theRegex, String str2Check)
 	{
@@ -343,9 +305,11 @@ public class Main
 	
 	/**
 	*	Calculates the operations 1 to 5 (+, -, /, *, %)
-	* 	@param pNum1 
-	* 	@param pOperator
-	*	@param pNum2 
+	*	<b> pos: </b> Operation has been calculated
+	* 	@param pNum1 Number one
+	* 	@param pOperator Mathematical operator (+, -. /, *, %)
+	*	@param pNum2 number two
+	* 	@return double result of operation betwwen pNum1 and pNum2
 	*/
 	public static double basicOperation(double pNum1, String pOperator, double pNum2)
 	{
@@ -375,7 +339,11 @@ public class Main
 	
 	/**
 	*	Updates the memory of the calculator with a new answer
-	*/
+	*	<b> pos: </b> memory is updated
+	*	@param newAns new data to be inserted to the memory
+	*	@param array memory
+	*	@return double[] memory updated
+	*/	
 	public static double[] updateMem(double newAns, double[] array)
 	{
 		int pos;
@@ -401,6 +369,13 @@ public class Main
 		
 	}
 	
+	/**
+	*	calculates the nth power of a number
+	* 	<b> pos: </b> the operation has been calculated
+	* 	@param power nth power
+	* 	@param num number
+	* 	@return double result of the operation
+	*/
 	public static double power(int power, double num)            //Potenciación
 	{
 		double result = num;
@@ -420,6 +395,12 @@ public class Main
 		
 	}
 	
+	/**
+	*	Calculates the factorial of a number n
+	* 	<b> pos: </b> the operation has been calculated
+	*	@param n number
+	*	@return double result of the operation
+	*/
 	public static double factorial (int n)  			//Factorial
 	{
 		double result = 1; 
@@ -432,6 +413,12 @@ public class Main
 		return result;
 	}
 	
+	/**
+	*	Converts a binary number to a decimal number
+	* 	<b> pos: </b> convertion is done
+	* 	@param bin String containing the binary number
+	* 	@return double decimal number
+	*/
 	public static double bin2Dec(String bin)
 	{
 		String aux;
@@ -448,6 +435,12 @@ public class Main
 		return result;
 	}
 	
+	/**
+	*	Converts a decimal number to a hexadecimal number
+	* 	<b> pos: </b> convertion is done
+	* 	@param dec String containing the decimal number
+	* 	@return double hexadecimal number
+	*/
 	public static String dec2Hex(double dec) 	
 	{
 		
@@ -497,7 +490,12 @@ public class Main
 		return result;
 	}
 	
-	
+	/**
+	*	Converts a hexadecimal number to a decimal number
+	* 	<b> pos: </b> convertion is done
+	* 	@param hex String containing the hexadecimal number
+	* 	@return double decimal number
+	*/
 	public static double hex2Dec(String hex)
 	{
 		double result = 0.0; 
@@ -543,6 +541,12 @@ public class Main
 		return result;
 	}
 	
+	/**
+	*	Converts a decimal number to a binary number
+	* 	<b> pos: </b> convertion is done
+	* 	@param dec String containing the decimal number
+	* 	@return double binary number
+	*/
 	public static String dec2Bin(double dec)
 	{
 		String result = "";
@@ -566,18 +570,33 @@ public class Main
 		return result;	
 	}
 	
+	/**
+	*	Converts from degrees to radians
+	* 	<b> pos: </b> convertion is done
+	* 	@param deg Double containing the degrees
+	* 	@return double radians
+	*/
 	public static double deg2Rad(double deg)
 	{
 		double result = Math.PI * deg / 180.0;
 		return result;
 	}
 	
+	/**
+	*	Converts from radians to degrees
+	* 	<b> pos: </b> convertion is done
+	* 	@param deg Double containing the radians
+	* 	@return double degrees
+	*/
 	public static double rad2Deg(double rad) 
 	{
 		double result = rad * 180.0/Math.PI;
 		return result;
 	}
 	
+	/**
+	* Manages the angle convertion menu
+	*/
 	public static void convertAnglesStart()
 	{
 		Scanner sc = new Scanner(System.in);
@@ -634,6 +653,13 @@ public class Main
 		} 
 	}
 	
+	/**
+	*	Manages the calculation of complex operations
+	*  	<b> pos: </b> Complex operations is calculated
+	* 	@param str String containing the complex operation
+	* 	@param pMemory Array containing the memory of the calculator
+	* 	@return double result of the operation
+	*/
 	public static double manageComplexOperations(String str, double[] pMemory)
 	{
 		String expresion = "";
@@ -726,7 +752,12 @@ public class Main
 			
 	}
 	
-	
+	/**
+	*	Detects if a comma is present in a String
+	* 	<b> pos: </b> String is checked
+	*	@param str String to be checked
+	* 	@return boolean true if a comma is present in a String
+	*/
 	public static boolean detectoComa(String str)    //Si detecta comma, retorna true
 	{
 		boolean result = false;
@@ -742,6 +773,14 @@ public class Main
 		return result;
 	}
 	
+	/**
+	*	Generates a subString from a String
+	* 	<b> pos: </b> subString is generated
+	*	@param str String of which substring will be obtain
+	*	@param indexInicio start index inclusive to form the substring from the String
+	*	@param indexFinal final index non-inclusive to form the substring from the String
+	*	@return String subString
+	*/
 	public static String subString(String str, int indexInicio, int indexFinal)
 	{
 		String result = "";
@@ -754,6 +793,12 @@ public class Main
 		return result;
 	}
 	
+	/**
+	*	Obtains the position of the last comma present in the String
+	* 	<b> pos: </b> position obtained
+	* 	@param str String to be checked
+	* 	@return int index of the position of the last comma in the String
+	*/
 	public static int posComa(String str)
 	{
 		int result = 0;
@@ -770,6 +815,12 @@ public class Main
 		
 	}
 	
+	/**
+	*	Calculates the squared number 
+	* 	<b> pos: </b> operation calculated
+	*	@param num number
+	*	@return double result
+	*/
 	public static double squaredSqr(double num)
 	{
 		double result = 0.0;
