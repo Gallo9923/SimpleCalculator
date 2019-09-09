@@ -18,8 +18,10 @@ public class Main
 		while (menu)
 		{
 			System.out.println("Input the option you need");
-			System.out.println("(1: One operation; 2: Flow of operations; 3: Exit)");
-			optionMenu = sc.nextInt(); 
+			System.out.println("(1: One operation; 2: Flow of operations; 3: Convertion)");
+			System.out.println("(4: Display Memory; 5: Scientific notation; 6: Exit Program)");
+			
+			optionMenu = Integer.parseInt(sc.next()); 
 			
 			switch (optionMenu)
 			{
@@ -35,16 +37,25 @@ public class Main
 					memory = oneOperationStart(sc, 0, 0, false, memory);
 					System.out.println("Back to menu");
 					break;
+				
 				case 3:
-					System.out.println("The program has finished");
-					menu = false;
-					break;
+					System.out.println("--- Convertion ---");
+					convertAnglesStart();
 				case 4: 																			//For TESTING
 					System.out.println("Memory will be printed");
 					for(int i=0; i < memory.length; i++)
 					{
 						System.out.println(memory[i]);
 					}
+					break;
+				case 5:
+					System.out.println("--- Scientific Notation ---");
+					System.out.println("Digit the number to convert");
+					System.out.printf("=%n" + "%.3e%n", Double.parseDouble(sc.next()));
+					break;
+				case 6:
+					System.out.println("The program has finished");
+					menu = false;
 					break;
 				
 				default:
@@ -122,6 +133,9 @@ public class Main
 				if (count == 0)
 				{
 					//RESOLVER EL NUMERO
+					num1 = manageComplexOperations(input, pMemory);
+					
+					
 				}else if (count == 1)
 				{
 					System.out.println("Have digit a wrong entry");
@@ -129,6 +143,7 @@ public class Main
 				} else
 				{
 					//RESOLVER EL NUMERO
+					num2 = manageComplexOperations(input, pMemory);
 				}
 				
 			}else 															//No reconocio ninguna entrada
@@ -182,7 +197,7 @@ public class Main
 		String str2 = "";
 		boolean result = false; 
 		
-		if (str.length() == 3)
+		if (str.length() >= 3)
 		{
 			for(int i=0; i < 3; i++)			//Puede ser otro método
 			{	
@@ -192,14 +207,17 @@ public class Main
 			
 			switch (str2)
 			{
-				case "scn":     		//Operation 11: Notación Cientifica
-				case "rad":				//Operation 12: Convierte a radianes
-				case "deg": 			//Operation 12: Convierte a grados
+				case "sqr":     		//Operation 11: Notación Cientifica
+				case "pow":				//Operation 12: Convierte a radianes
+				case "fac": 			//Operation 12: Convierte a grados
 				case "sin":				//Operation 13
 				case "cos": 			//Operation 14
 				case "tan":				//Operation 15
-				case "log":				//Operation 16 
-				case "sqr":				//Operation 17
+				case "lnn":				//Operation 16 
+				case "log":				//Operation 17
+				case "rad":
+				case "deg":
+				case "mem":
 					result = true;
 					break; 
 				default:
@@ -383,13 +401,19 @@ public class Main
 		
 	}
 	
-	public static double power(int power, double num)     //Potenciación
+	public static double power(int power, double num)            //Potenciación
 	{
 		double result = num;
 		
-		for(int i=0; i<power-1; i++)
-		{	
-			result = result * num; 	
+		if (power == 0)
+		{
+			result = 1;
+		} else
+		{
+			for(int i=0; i<power-1; i++)
+			{	
+				result = result * num; 	
+			}
 		}
 		
 		return result;
@@ -418,13 +442,13 @@ public class Main
 			aux = Character.toString(bin.charAt(bin.length()-i-1));
 			
 			result += Integer.parseInt(aux) * power(i,2);
+		
 		}
-	
+		
 		return result;
 	}
 	
-	public static String dec2Hex(double dec) 
-		
+	public static String dec2Hex(double dec) 	
 	{
 		
 		String result = "";
@@ -540,6 +564,257 @@ public class Main
 		}
 	
 		return result;	
+	}
+	
+	public static double deg2Rad(double deg)
+	{
+		double result = Math.PI * deg / 180.0;
+		return result;
+	}
+	
+	public static double rad2Deg(double rad) 
+	{
+		double result = rad * 180.0/Math.PI;
+		return result;
+	}
+	
+	public static void convertAnglesStart()
+	{
+		Scanner sc = new Scanner(System.in);
+		
+		boolean convert = true;
+		int caso = 0;
+		double aux = 0.0;
+		String str = "";
+		
+		while (convert)
+		{
+			System.out.println("1: Binary to decimal; 2: Decimal to hexadecimal");
+			System.out.println("3: Hexadecimal to decimal; 4: Decimal to binary"); 
+			System.out.println("5: Binary to hexadecimal; 6: Hexadecimal to  binary");
+			System.out.println("7: Exit convertion");
+			
+			caso = sc.nextInt();
+			
+			switch (caso)
+			{
+				case 1:
+					System.out.println("Digit the binary number");
+					System.out.println(bin2Dec(sc.next()));
+					break;
+				case 2: 
+					System.out.println("Digit the decimal number");
+					System.out.println(dec2Hex(Integer.parseInt(sc.next())));
+					break;
+				case 3:
+					System.out.println("Digit the hexadecimal number");
+					System.out.println(hex2Dec(sc.next()));
+					break;
+				case 4: 
+					System.out.println("Digit the decimal number");
+					System.out.println(dec2Bin(Double.parseDouble(sc.next())));
+					break;
+				case 5: 
+					System.out.println("Digit the hexadecimal number");
+					aux = bin2Dec(sc.next());
+					System.out.println(dec2Hex(aux));
+					break;
+				case 6:
+					System.out.println("Digit the hexadecimal number");
+					aux = hex2Dec(sc.next());
+					System.out.println(dec2Bin(aux));
+					break;
+				case 7: 
+					System.out.println("Convertion mode closed");
+					convert = false;
+				default:
+					System.out.println("You need to choose a valid option");
+			}
+			
+		} 
+	}
+	
+	public static double manageComplexOperations(String str, double[] pMemory)
+	{
+		String expresion = "";
+		int posN = 0;
+		
+		String num = "";
+		String n = ""; 
+		
+		double result = 0.0;
+		
+		expresion = subString(str, 0, 3);
+		
+		switch (expresion)
+			{
+				case "sqr": 
+					if(detectoComa(str))
+					{
+						posN = posComa(str); //Obtengo la posicion de la coma en el string STR
+						n = subString(str, 4, posN); //Obtengo el número n
+						num = subString(str, posN+1, str.length()-1); //Obtengo el num del String
+						
+						result = Math.exp((Math.log(Double.parseDouble(num)))/Double.parseDouble(n));
+					} else
+					{
+						num = subString(str, 4, str.length()-1); //Obtengo el num del String
+						result = squaredSqr(Double.parseDouble(num));
+					}
+					break;
+				case "pow":	
+					if(detectoComa(str))
+					{
+						
+						posN = posComa(str); //Obtengo la posicion de la coma en el string STR
+						
+						
+						
+						n = subString(str, 4, posN); //Obtengo el número n
+						num = subString(str, posN+1, str.length()-1); //Obtengo el num del String
+				
+						result = power(Integer.parseInt(n), Double.parseDouble(num));
+						
+					}	
+					break;	
+				case "fac": 
+					num = subString(str, 4, str.length()-1); //Obtengo el num del String
+					result = factorial(Integer.parseInt(num));
+					break;
+					
+				case "sin":		
+					num = subString(str, 4, str.length()-1); //Obtengo el num del String
+					result = Math.sin(Double.parseDouble(num));
+					break;
+				case "cos": 	
+					num = subString(str, 4, str.length()-1); //Obtengo el num del String
+					result = Math.cos(Double.parseDouble(num));
+					break;
+				case "tan":	
+					num = subString(str, 4, str.length()-1); //Obtengo el num del String
+					result = Math.tan(Double.parseDouble(num));
+					break;
+				case "lnn":	
+					num = subString(str, 4, str.length()-1); //Obtengo el num del String
+					result = Math.log10(Double.parseDouble(num));
+					break;
+				case "log":
+					posN = posComa(str); //Obtengo la posicion de la coma en el string STR
+						
+					n = subString(str, 4, posN); //Obtengo el número n
+					num = subString(str, posN+1, str.length()-1); //Obtengo el num del String
+				
+					result = Math.log(Double.parseDouble(num))/Math.log(Double.parseDouble(n));	
+					break;
+				case "mem":
+					num = subString(str, 4, str.length()-1); //Obtengo el num del String
+					result = pMemory[Integer.parseInt(num)+1];
+					break;
+				case "rad":
+					num = subString(str, 4, str.length()-1); //Obtengo el num del String
+					result = deg2Rad(Double.parseDouble(num));
+					break;
+				case "deg":
+					num = subString(str, 4, str.length()-1); //Obtengo el num del String
+					result = rad2Deg(Double.parseDouble(num));
+				default:
+					System.out.println("Have digit a wrong entry");
+					break;
+			}
+		
+		return result;
+			
+	}
+	
+	
+	public static boolean detectoComa(String str)    //Si detecta comma, retorna true
+	{
+		boolean result = false;
+		
+		for(int i=0; i<str.length();i++)
+		{
+			if (str.charAt(i) == ',')
+			{
+				result = true;
+			}
+		}	
+		
+		return result;
+	}
+	
+	public static String subString(String str, int indexInicio, int indexFinal)
+	{
+		String result = "";
+		
+		for(int i=indexInicio; i < indexFinal; i++)			//Puede ser otro método
+		{	
+			result = result + String.valueOf(str.charAt(i));
+		}
+		
+		return result;
+	}
+	
+	public static int posComa(String str)
+	{
+		int result = 0;
+		
+		for (int i=0; i<str.length(); i++)
+		{
+			if(str.charAt(i) == ',')
+			{
+				result = i; 
+			}
+		}
+		
+		return result;
+		
+	}
+	
+	public static double squaredSqr(double num)
+	{
+		double result = 0.0;
+		double num1 = 0.0;
+		double num2 = 0.0;
+		double aux1 = 0.0;
+		double aux2 = 0.0;
+		
+		boolean test = true;
+		int i=0;
+		
+		while (test)
+		{
+			num1 = i;
+			aux1 = i * i;
+			
+			if ((i+1)*(i+1) > num)
+			{
+				test = false;
+			}
+			
+			i++;
+			
+		}
+		
+		num2 = i; 
+		aux2 = i * i; 
+		
+		double dif1 = 0.0;
+		double dif2 = 0.0;
+		
+		dif1 = num - aux1;
+		dif2 = aux2 - num;
+		
+		if (dif1 > dif2)
+		{
+			result = ((num2*num2)+num)/(num2*2);
+		} else
+		{
+			result = ((num1*num1)+num)/(num1*2);
+		}
+		
+		return result;
+		
+		
 	}
 	
 }  // Close Main
